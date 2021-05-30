@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const { v4: uuidv4 } = require("uuid");
-
+const stripe = require("stripe")(
+  "sk_test_51IwovOGAZeNDJEOrjwkm0oauqFg4Uvi1vEw3IGgWIktYrC2HBOsb4EvJ3X9NgkWI9PJ6uwSNP30wIVDHt9QedU9h001XrgagsB"
+);
 router.use(express.json());
 router.use(
   express.urlencoded({
@@ -9,9 +11,6 @@ router.use(
   })
 );
 
-const stripe = require("stripe")(
-  "sk_test_51IwovOGAZeNDJEOrjwkm0oauqFg4Uvi1vEw3IGgWIktYrC2HBOsb4EvJ3X9NgkWI9PJ6uwSNP30wIVDHt9QedU9h001XrgagsB"
-);
 router.post("/placeorder", async (req, res) => {
   const { token, subtotal, currentUser, cartItems } = req.body;
 
@@ -26,7 +25,7 @@ router.post("/placeorder", async (req, res) => {
         amount: subtotal * 100,
         currency: "NOK",
         customer: costumer.id,
-        receit_email: token.email,
+        receipt_email: token.email,
       },
       {
         idempotencykey: uuidv4(),
@@ -39,7 +38,7 @@ router.post("/placeorder", async (req, res) => {
       res.send("Payment Failed");
     }
   } catch (error) {
-    return res.status(400).json({ message: "Something went wrong" });
+    return res.status(400).json({ message: "Something went wrong" + error });
   }
 });
 

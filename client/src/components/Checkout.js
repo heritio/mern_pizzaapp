@@ -13,6 +13,7 @@ export default function Checkout({ subtotal }) {
       <StripeCheckout
         amount={subtotal * 100}
         shippingAddress
+        billingAddress
         token={tokenHandler}
         stripeKey="pk_test_51IwovOGAZeNDJEOrGHrDO7yFXFcZn6IFU5In3OvmSuB1BZAop8hPjYHkPUc4gCJWHzBt6TNLwwlbjiPtw9SxSok000ztycHMZe"
         currency="NOK"
