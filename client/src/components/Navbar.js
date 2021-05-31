@@ -30,7 +30,9 @@ export default function Navbar() {
           <ul className="navbar-nav ms-auto">
             {currentUser ? (
               <div style={{ display: "flex" }}>
-                <a className="m-2 list-style">Orders</a>
+                <a className="m-2 list-style" href="/orders">
+                  Orders
+                </a>
                 <a
                   className="m-2 list-style"
                   onClick={() => dispatch(logoutUser())}
