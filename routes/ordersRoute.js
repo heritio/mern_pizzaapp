@@ -8,11 +8,11 @@ router.use(
     extended: true,
   })
 );
-const Order = require("../models/orderModel");
+
 const stripe = require("stripe")(
   "sk_test_51IwovOGAZeNDJEOrjwkm0oauqFg4Uvi1vEw3IGgWIktYrC2HBOsb4EvJ3X9NgkWI9PJ6uwSNP30wIVDHt9QedU9h001XrgagsB"
 );
-
+const Order = require("../models/orderModel");
 router.post("/placeorder", async (req, res) => {
   const { token, subtotal, currentUser, cartItems } = req.body;
 
@@ -38,7 +38,7 @@ router.post("/placeorder", async (req, res) => {
       const neworder = new Order({
         name: currentUser.name,
         email: currentUser.email,
-        userid: currentUser._id,
+        userid: uuidv4(),
         orderItems: cartItems,
         orderAmount: subtotal,
         shippingAddress: {
@@ -61,7 +61,7 @@ router.post("/placeorder", async (req, res) => {
   }
 });
 
-router.get("/getusersorders", async (req, res) => {
+router.post("/getusersorders", async (req, res) => {
   const { userid } = req.body;
   try {
     const orders = await Order.find({ userid: userid });
