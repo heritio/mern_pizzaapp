@@ -9,9 +9,7 @@ router.use(
   })
 );
 
-const stripe = require("stripe")(
-  "sk_test_51IwovOGAZeNDJEOrjwkm0oauqFg4Uvi1vEw3IGgWIktYrC2HBOsb4EvJ3X9NgkWI9PJ6uwSNP30wIVDHt9QedU9h001XrgagsB"
-);
+
 const Order = require("../models/orderModel");
 router.post("/placeorder", async (req, res) => {
   const { token, subtotal, currentUser, cartItems } = req.body;
